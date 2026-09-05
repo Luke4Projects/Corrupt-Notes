@@ -19,6 +19,10 @@ var keys = {};
 
 var sequence;
 
+var deltaTime = Date.now();
+var lastCalledTime = Date.now()-1;
+
+
 var image = {
     guitar: new Image(),
     keys: new Image(),
@@ -70,6 +74,8 @@ function start() {
 }
 
 function update() {
+    deltaTime = (Date.now() - lastCalledTime) / 7.0; // default frame time
+    lastCalledTime = Date.now();
     if(gameStates[gameState] == "playing") {
         if(guitarCombat != null) {
             guitarCombat.update();

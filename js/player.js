@@ -28,7 +28,7 @@ class Player {
     draw() {
         this.drawGuitar();
         
-        this.animationTick++;
+        this.animationTick+=deltaTime;
         if(this.animationTick > 10) {
             this.frameX = (this.frameX + 1) % 4;
             this.animationTick = 0;
@@ -52,7 +52,7 @@ class Player {
         ctx.restore();
 
         if(this.guitarAnimationTick > 0) {
-            this.guitarAnimationTick++;
+            this.guitarAnimationTick+=deltaTime;
             if(this.guitarAnimationTick > Math.PI*15) {
                 this.guitarAnimationTick = 0;
             }
@@ -68,12 +68,12 @@ class Player {
     }
     update() {
         this.updateInput();
-        this.attackAngle+=this.aimVelocity;
-        this.aimVelocity*=this.aimFriction;
+        this.attackAngle+=this.aimVelocity*deltaTime;
+        this.aimVelocity*=this.aimFriction*deltaTime;
         if(guitarCombat == null) {
-            this.combatEndTick++;
+            this.combatEndTick+=deltaTime;
         }
-        this.killTick++;
+        this.killTick+=deltaTime;
         for(let bullet of this.bullets) {
             bullet.update();
         }
@@ -81,10 +81,10 @@ class Player {
     updateInput() {
         if(guitarCombat == null && this.guitarAnimationTick == 0) {
             if(keys["KeyA"] || keys["KeyS"]) {
-                this.aimVelocity-=this.aimSpeed;
+                this.aimVelocity-=this.aimSpeed*deltaTime;
             }
             if(keys["KeyF"] || keys["KeyD"]) {
-                this.aimVelocity+=this.aimSpeed;
+                this.aimVelocity+=this.aimSpeed*deltaTime;
             }
         }
         if(keys["Space"] && guitarCombat == null) {
@@ -121,8 +121,8 @@ class Bullet {
         ctx.closePath();
     }
     update() {
-        this.x+=this.xSpeed;
-        this.y+=this.ySpeed;
+        this.x+=this.xSpeed*deltaTime;
+        this.y+=this.ySpeed*deltaTime;
         for(let i = 0; i < evilNotes.length; i++) {
             if(evilNotes[i].x + evilNotes[i].sizeX > this.x-this.radius && evilNotes[i].x < this.x+this.radius*2) {
                 if(evilNotes[i].y + evilNotes[i].sizeY > this.y-this.radius && evilNotes[i].y < this.y+this.radius*2) {

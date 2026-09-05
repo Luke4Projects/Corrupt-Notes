@@ -42,7 +42,7 @@ class GuitarCombat {
     draw() {
 
         if(this.animationOffset.y > 0) {
-            this.animationOffset.y-=this.startAnimationSpeed;
+            this.animationOffset.y-=this.startAnimationSpeed * deltaTime;
         }
         let yPos = (this.position.y+this.animationOffset.y) + Math.sin(Date.now()/100)*3;
 
@@ -58,7 +58,7 @@ class GuitarCombat {
         }
         for(let i = 0; i < this.stringPositions.length; i++) {
             if(this.stringPositions[i] > 0) {
-                this.stringPositions[i]-=0.05;
+                this.stringPositions[i]-=0.05 * deltaTime;
                 ctx.save();
                 ctx.globalAlpha = this.stringPositions[i];
                 ctx.fillStyle = "#64b082";
@@ -102,7 +102,7 @@ class GuitarCombat {
                     pos = 3;
                     break;
             }
-            yPos += parseInt(this.rhythm[y])*100
+            yPos += parseInt(this.rhythm[y])*100 * deltaTime
             let note = new CombatNote(this.position.x+280+(pos*26), -yPos);
             this.combatNotes.push(note);
         }
@@ -118,7 +118,7 @@ class GuitarCombat {
                     sfx.fail.play();
                 }
                 this.combatNotes[i].pulse();
-                this.lostTick++;
+                this.lostTick+=deltaTime;
                 if(this.lostTick > 800) {
                     this.endCombat();
                 }
@@ -173,7 +173,7 @@ class GuitarCombat {
         }
     }
     update() {
-        this.startTick++;
+        this.startTick+=deltaTime;
         this.checkKeyPress();
         if(this.doneNotes >= this.combatNotes.length) {
             player.successfulAttack();
@@ -216,7 +216,7 @@ class CombatNote {
         ctx.restore();
     }
     update() {
-        this.y+=this.ySpeed;
+        this.y+=this.ySpeed * deltaTime;
         if(this.y >= 800) {
             this.passing = true;
             if(this.y >= 870) {
@@ -228,7 +228,7 @@ class CombatNote {
     pulse() {
         let pulseAmount = Math.sin(Date.now()/40)*0.5;
         if(this.radius > Math.abs(pulseAmount)) {
-            this.radius += pulseAmount;
+            this.radius += pulseAmount * deltaTime;
         }
     }
 }

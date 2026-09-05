@@ -5,7 +5,7 @@ class Effects {
     }
     update() {
         if(this.screenShakeTick > 0) {
-            this.screenShakeTick++;
+            this.screenShakeTick+=deltaTime;
             this.shake.x = Math.sin(this.screenShakeTick)*10
             this.shake.y = Math.cos(this.screenShakeTick)*10
             if(this.screenShakeTick > 30) {
@@ -45,7 +45,7 @@ function gameOver() {
         focusScreen();
     }
 
-    player.gameOverTick++;
+    player.gameOverTick+=deltaTime;
 
 }
 

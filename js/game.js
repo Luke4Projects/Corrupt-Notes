@@ -22,7 +22,7 @@ class EvilNote {
     }
     update() {
         if(guitarCombat == null) {
-            this.y += gameSpeed;
+            this.y += gameSpeed*deltaTime;
         }
         if(this.y >= bounds.y) {
             if(this.corrupted) {
@@ -59,12 +59,12 @@ class Particle {
         ctx.restore();
     }
     update() {
-        this.x+=this.xSpeed;
-        this.y+=this.ySpeed;
+        this.x+=this.xSpeed*deltaTime;
+        this.y+=this.ySpeed*deltaTime;
         if(this.moveWithGame) {
-            this.y+=gameSpeed;
+            this.y+=gameSpeed*deltaTime;
         }
-        this.tick++;
+        this.tick+=deltaTime;
         if(this.tick > this.duration) {
             particles.splice(particles.indexOf(this), 1);
         }
@@ -85,7 +85,7 @@ class TempoChanger {
     }
     update() {
         if(guitarCombat == null) {
-            this.y += gameSpeed;
+            this.y += gameSpeed*deltaTime;
             if(player.y < this.y+this.height && player.y + player.sizeY > this.y) {
                 gameSpeed = normalGameSpeed+this.offset;
                 sfx.song.playbackRate = this.offset;
@@ -98,7 +98,7 @@ class TempoChanger {
             }
         }
 
-        this.animationTick++;
+        this.animationTick+=deltaTime;
         if(this.animationTick > 20) {
             this.frameX = (this.frameX + 1) % 4;
             this.animationTick = 0;
@@ -142,7 +142,7 @@ function initGame() {
 }
 
 function spawnEvilNotes() {
-    spawnTick++;
+    spawnTick+=deltaTime;
     if(spawnTick > noteSpawnTime) {
         let x = Math.random() < 0.5 ? Math.floor(Math.random() * 200) : Math.floor(Math.random() * 200) + 500;
         let note = new EvilNote(x, 0);
@@ -150,14 +150,14 @@ function spawnEvilNotes() {
         spawnTick = 0;
     }
     if(Date.now() % 300 == 0) {
-        noteSpawnTime-=5;
+        noteSpawnTime-=5*deltaTime;
         //console.log("test");
     }
 }
 
 function spawnTempoChanger() {
     if(tempoChanger == null) {
-        tempoChangerSpawntick++;
+        tempoChangerSpawntick+=deltaTime;
         if(tempoChangerSpawntick > tempoChangerSpawntime) {
             tempoChanger = new TempoChanger(-1000);
             tempoChangerSpawntick = 0;
@@ -172,7 +172,7 @@ function drawFloor() {
     ctx.fillStyle = "#2d1e2f";
     ctx.fillRect(0,0,250*SFN,1000*SFN);
     ctx.fillRect(500*SFN,0,250*SFN,1000*SFN);
-    floorTimeOffset+= guitarCombat==null ? gameSpeed : 0;
+    floorTimeOffset+= guitarCombat==null ? gameSpeed*deltaTime : 0;
     if(effects.screenShakeTick > 0) {
         ctx.translate(effects.shake.x, effects.shake.y);
     }
