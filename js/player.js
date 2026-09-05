@@ -69,7 +69,7 @@ class Player {
     update() {
         this.updateInput();
         this.attackAngle+=this.aimVelocity*deltaTime;
-        this.aimVelocity*=this.aimFriction*deltaTime;
+        this.aimVelocity*=this.aimFriction;
         if(guitarCombat == null) {
             this.combatEndTick+=deltaTime;
         }

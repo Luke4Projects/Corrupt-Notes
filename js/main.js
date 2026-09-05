@@ -81,6 +81,7 @@ function update() {
         deltaTime = (Date.now() - lastCalledTime) / 7.0; // default frame time
         lastCalledTime = Date.now();
     }
+    console.log(deltaTime);
     if(gameStates[gameState] == "playing") {
         if(guitarCombat != null) {
             guitarCombat.update();
