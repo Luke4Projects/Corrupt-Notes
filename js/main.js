@@ -19,8 +19,8 @@ var keys = {};
 
 var sequence;
 
-var deltaTime = Date.now();
-var lastCalledTime = Date.now()-1;
+var deltaTime = 0;
+var lastCalledTime = 0;
 
 
 var image = {
@@ -74,8 +74,13 @@ function start() {
 }
 
 function update() {
-    deltaTime = (Date.now() - lastCalledTime) / 7.0; // default frame time
-    lastCalledTime = Date.now();
+    if(lastCalledTime == 0) {
+        deltaTime = 1;
+        lastCalledTime = Date.now();
+    } else {
+        deltaTime = (Date.now() - lastCalledTime) / 7.0; // default frame time
+        lastCalledTime = Date.now();
+    }
     if(gameStates[gameState] == "playing") {
         if(guitarCombat != null) {
             guitarCombat.update();
